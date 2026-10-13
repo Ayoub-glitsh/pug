@@ -707,7 +707,8 @@ Compiler.prototype = {
         this.attributeBlocks(tag.attributeBlocks)
       );
       this.buffer('>');
-      if (Object.prototype.hasOwnProperty.call(tag, 'code') && tag.code) this.visitCode(tag.code);
+      if (Object.prototype.hasOwnProperty.call(tag, 'code') && tag.code)
+        this.visitCode(tag.code);
       this.visit(tag.block, tag);
 
       // pretty print
@@ -837,7 +838,10 @@ Compiler.prototype = {
     this.buf.push('if (' + test + ') {');
     this.visit(cond.consequent, cond);
     this.buf.push('}');
-    if (Object.prototype.hasOwnProperty.call(cond, 'alternate') && cond.alternate) {
+    if (
+      Object.prototype.hasOwnProperty.call(cond, 'alternate') &&
+      cond.alternate
+    ) {
       if (cond.alternate.type === 'Conditional') {
         this.buf.push('else');
         this.visitConditional(cond.alternate);
@@ -1032,14 +1036,24 @@ Compiler.prototype = {
 function tagCanInline(tag) {
   function isInline(node) {
     // Recurse if the node is a block
-    if (Object.prototype.hasOwnProperty.call(node, 'type') && node.type === 'Block') return node.nodes.every(isInline);
+    if (
+      Object.prototype.hasOwnProperty.call(node, 'type') &&
+      node.type === 'Block'
+    )
+      return node.nodes.every(isInline);
     // When there is a YieldBlock here, it is an indication that the file is
     // expected to be included but is not. If this is the case, the block
     // must be empty.
-    if (Object.prototype.hasOwnProperty.call(node, 'type') && node.type === 'YieldBlock') return true;
+    if (
+      Object.prototype.hasOwnProperty.call(node, 'type') &&
+      node.type === 'YieldBlock'
+    )
+      return true;
     return (
-      (Object.prototype.hasOwnProperty.call(node, 'type') && node.type === 'Text' &&
-        Object.prototype.hasOwnProperty.call(node, 'val') && !/\n/.test(node.val)) ||
+      (Object.prototype.hasOwnProperty.call(node, 'type') &&
+        node.type === 'Text' &&
+        Object.prototype.hasOwnProperty.call(node, 'val') &&
+        !/\n/.test(node.val)) ||
       (Object.prototype.hasOwnProperty.call(node, 'isInline') && node.isInline)
     );
   }

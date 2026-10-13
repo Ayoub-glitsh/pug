@@ -160,7 +160,9 @@ function applyIncludes(ast, child) {
         if (childAST.hasExtends) {
           childAST = removeBlocks(childAST);
         }
-        replace(applyYield(childAST, ownProp.call(node, 'block') ? node.block : null));
+        replace(
+          applyYield(childAST, ownProp.call(node, 'block') ? node.block : null)
+        );
       }
     }
   );
@@ -189,8 +191,12 @@ function applyYield(ast, block) {
   function defaultYieldLocation(node) {
     var res = node;
     for (var i = 0; i < node.nodes.length; i++) {
-      if (ownProp.call(node.nodes[i], 'textOnly') && node.nodes[i].textOnly) continue;
-      if (ownProp.call(node.nodes[i], 'type') && node.nodes[i].type === 'Block') {
+      if (ownProp.call(node.nodes[i], 'textOnly') && node.nodes[i].textOnly)
+        continue;
+      if (
+        ownProp.call(node.nodes[i], 'type') &&
+        node.nodes[i].type === 'Block'
+      ) {
         res = defaultYieldLocation(node.nodes[i]);
       } else if (
         ownProp.call(node.nodes[i], 'block') &&
